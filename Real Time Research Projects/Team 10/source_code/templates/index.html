@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Fraud Detection</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <style>
+        .output.success { color: green; }
+        .output.danger { color: red; }
+        .output.warning { color: orange; }
+        form { margin-top: 20px; }
+        label { display: block; margin-top: 10px; }
+        input, select { margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+    <h2>Fraud Detection</h2>
+
+    {% if result %}
+      <div class="output {{ result_category }}">
+        <strong>{{ result }}</strong>
+      </div>
+    {% endif %}
+
+    <form method="post">
+        <label>Time Since Login (min):</label>
+        <input type="number" step="any" name="time_since_login_min" required
+               value="{{ form_data.time_since_login_min or '' }}">
+
+        <label>Transaction Amount:</label>
+        <input type="number" step="any" name="transaction_amount" required
+               value="{{ form_data.transaction_amount or '' }}">
+
+        <label>Transaction Type:</label>
+        <select name="transaction_type" required>
+            <option value="" disabled {% if not form_data.transaction_type %}selected{% endif %}>Select type</option>
+            {% for t in valid_types %}
+            <option value="{{ t }}" {% if form_data.transaction_type == t %}selected{% endif %}>{{ t.replace('transaction_type_', '') }}</option>
+            {% endfor %}
+        </select>
+
+        <label>
+            <input type="checkbox" name="is_first_transaction"
+                   {% if form_data.is_first_transaction %}checked{% endif %}>
+            Is First Transaction
+        </label>
+
+        <label>User Tenure (months):</label>
+        <input type="number" step="any" name="user_tenure_months" required
+               value="{{ form_data.user_tenure_months or '' }}">
+
+        <br>
+        <button type="submit">Check Fraud</button>
+    </form>
+</body>
+</html>

@@ -1,0 +1,73 @@
+import os
+import pickle
+import numpy as np
+from flask import Flask, request, render_template
+from tensorflow.keras.models import load_model
+from tensorflow.keras.preprocessing.sequence import pad_sequences
+from tensorflow.keras.applications.inception_v3 import InceptionV3, preprocess_input
+from tensorflow.keras.preprocessing.image import load_img, img_to_array
+
+# Flask app setup
+app = Flask(__name__)
+UPLOAD_FOLDER = os.path.join('static', 'uploads')
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+# Load trained model and tokenizer
+model = load_model("saved model/model saved.keras")
+
+with open("saved model/tokenizer.pkl", "rb") as f:
+    tokenizer = pickle.load(f)
+
+with open("saved model/config.pkl", "rb") as f:
+    config = pickle.load(f)
+
+max_length = config['max_caption_length']
+
+# Load CNN model for feature extraction
+cnn_model = InceptionV3(weights='imagenet', include_top=False, pooling='avg')
+
+def extract_features(image_path):
+    image = load_img(image_path, target_size=(299, 299))
+    image = img_to_array(image)
+    image = np.expand_dims(image, axis=0)
+    image = preprocess_input(image)
+    return cnn_model.predict(image)
+
+def generate_caption(image_path):
+    features = extract_features(image_path)
+    in_text = ''
+
+    for _ in range(max_length):
+        sequence = tokenizer.texts_to_sequences([in_text])[0] if in_text else []
+        sequence = pad_sequences([sequence], maxlen=max_length)
+
+        yhat = model.predict([features, sequence], verbose=0)
+        yhat = np.argmax(yhat)
+        word = tokenizer.index_word.get(yhat)
+
+        if word is None:
+            break
+
+        in_text += ' ' + word
+
+        # Optional: break if it predicts an end punctuation
+        if word in ['.', '!', '?']:
+            break
+
+    return in_text.strip().capitalize()
+
+@app.route('/', methods=['GET', 'POST'])
+def index():
+    caption = None
+    image_path = None
+    if request.method == 'POST':
+        file = request.files['image']
+        if file:
+            image_path = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
+            file.save(image_path)
+            caption = generate_caption(image_path)
+    return render_template('index.html', caption=caption, image_path=image_path)
+
+if __name__ == '__main__':
+    os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+    app.run(debug=True)

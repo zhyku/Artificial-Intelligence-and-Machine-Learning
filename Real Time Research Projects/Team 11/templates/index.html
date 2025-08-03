@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Resume Analyzer</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="container">
+    <h1>Upload Your Resume (PDF)</h1>
+    <form action="/upload" method="post" enctype="multipart/form-data">
+      <input type="file" name="resume" required>
+      <button type="submit">Upload</button>
+    </form>
+{% if filename %}
+  <h2>Uploaded: {{ filename }}</h2>
+
+  <h3>Extracted Skills:</h3>
+  {% if skills %}
+    <ul>
+      {% for skill in skills %}
+        <li>{{ skill }}</li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No known skills found in the resume.</p>
+  {% endif %}
+
+  <h3>Extracted Resume Text:</h3>
+  <div style="background-color: #f9f9f9; padding: 10px; border: 1px solid #ddd; white-space: pre-wrap; max-height: 400px; overflow-y: scroll;">
+    {{ resume_text }}
+  </div>
+{% endif %}
+
+  </div>
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
