@@ -1,0 +1,96 @@
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Forecasted Demand - Profit Predictor</title>
+  <style>
+    body {
+      display: flex;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      height: 100vh;
+      background: #eef2f3;
+    }
+    .sidebar {
+      background: #2c3e50;
+      color: white;
+      width: 250px;
+      padding: 30px 20px;
+      font-size: 24px;
+      font-weight: bold;
+      box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+    }
+    .main {
+      flex-grow: 1;
+      padding: 40px;
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    input, button {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+    }
+    button {
+      margin-top: 10px;
+      background: #2980b9;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    .result {
+      margin-top: 20px;
+      font-size: 18px;
+      color: green;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="sidebar">
+    Forecasted Demand
+  </div>
+  <div class="main">
+    <h2>Enter Product Details</h2>
+
+    <div class="form-group">
+      <label>Ship Date:</label>
+      <input type="date" id="shipDate">
+    </div>
+
+    <div class="form-group">
+      <label>Product ID:</label>
+      <input type="text" id="productId" placeholder="Enter Product ID">
+    </div>
+
+    <div class="form-group">
+      <label>Quantity:</label>
+      <input type="number" id="quantity" placeholder="Enter quantity">
+    </div>
+
+    <button onclick="predictProfit()">Calculate Profit</button>
+
+    <div class="result" id="result"></div>
+  </div>
+
+  <script>
+    function predictProfit() {
+      const quantity = parseFloat(document.getElementById('quantity').value);
+
+      // Placeholder: Profit = quantity * 10 - You will replace this after model
+      const profit = quantity * 10;
+
+      document.getElementById('result').innerText = 
+        `Estimated Profit: $${profit.toFixed(2)}`;
+    }
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+
