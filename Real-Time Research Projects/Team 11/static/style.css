@@ -1,0 +1,146 @@
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: linear-gradient(120deg, #f4f4f4 60%, #e3f0ff 100%);
+  margin: 0;
+  padding: 40px 0;
+}
+
+.main-flex {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+  padding: 32px 28px;
+  min-width: 320px;
+  max-width: 420px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.upload-section {
+  flex: 1 1 350px;
+}
+
+.output-section {
+  flex: 1 1 350px;
+}
+
+h1 {
+  text-align: center;
+  font-size: 2.1rem;
+  margin-bottom: 8px;
+}
+
+h2, h3 {
+  text-align: center;
+  margin-top: 18px;
+  margin-bottom: 10px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+input[type="file"] {
+  margin: 18px 0 10px 0;
+  padding: 10px;
+  border: 2px dashed #007bff;
+  border-radius: 8px;
+  background: #f8fafc;
+  color: #007bff;
+  font-weight: 500;
+  cursor: pointer;
+  width: 100%;
+  max-width: 320px;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+input[type="file"]:hover, input[type="file"]:focus {
+  border-color: #0056b3;
+  background: #e3f0ff;
+}
+
+button {
+  padding: 12px 28px;
+  background: linear-gradient(90deg, #007bff 60%, #0056b3 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.05rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+  margin-top: 10px;
+}
+
+button:hover {
+  background: linear-gradient(90deg, #0056b3 60%, #007bff 100%);
+  transform: translateY(-2px) scale(1.03);
+}
+
+.skills-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 18px;
+}
+
+.skill-chip {
+  background: #e3f0ff;
+  color: #0056b3;
+  padding: 7px 14px;
+  border-radius: 16px;
+  font-size: 1rem;
+  font-weight: 500;
+  box-shadow: 0 2px 8px rgba(0,123,255,0.07);
+  transition: background 0.2s, color 0.2s;
+}
+
+.skill-chip:hover {
+  background: #007bff;
+  color: #fff;
+}
+
+.no-skills {
+  color: #d9534f;
+  font-weight: 500;
+  text-align: center;
+}
+
+.resume-text {
+  background: #f9f9f9;
+  padding: 14px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  white-space: pre-wrap;
+  max-height: 250px;
+  overflow-y: scroll;
+  font-size: 0.98rem;
+  margin-top: 8px;
+}
+
+ul {
+  list-style-type: square;
+  padding-left: 20px;
+}
+
+@media (max-width: 900px) {
+  .main-flex {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .card {
+    margin: 0 auto 24px auto;
+    max-width: 98vw;
+  }
+}
