@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Fraud Detector</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+  /* Highlight for all inputs, selects, and checkbox */
+  .form-control,
+  .form-select,
+  .form-check-input {
+    border: 2px solid #4A90E2 !important;
+    box-shadow: 0 0 4px rgba(74, 144, 226, 0.25) !important;
+    outline: none !important;
+  }
+
+  /* On focus: stronger glow */
+  .form-control:focus,
+  .form-select:focus,
+  .form-check-input:focus {
+    border-color: #2A70D0 !important;
+    box-shadow: 0 0 6px rgba(42, 112, 208, 0.4) !important;
+  }
+
+  /* Checkbox size and position */
+  .form-check-input {
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    position: relative;
+    top: 20px;
+    left: 65px;
+  }
+</style>
+
+</head>
+
+<body class="bg-light py-5">
+    <div class="container">
+        <h1 class="mb-4">Real-Time Fraud Detection</h1>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for category, msg in messages %}
+        <div class="alert alert-{{ category }} mb-3">{{ msg }}</div>
+        {% endfor %}
+        {% endwith %}
+
+        <form method="post" class="row g-3">
+            <div class="col-md-6">
+                <label class="form-label">Time since login (min)</label>
+                <input name="time_since_login_min" type="number" step="0.01" class="form-control" required>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Transaction amount</label>
+                <input name="transaction_amount" type="number" step="0.01" class="form-control" required>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Transaction type</label>
+                <select name="transaction_type" class="form-select">
+                    {% for t in valid_types %}
+                    <option value="{{ t }}">{{ t }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-6 form-check mt-4">
+                <input name="is_first_transaction" type="checkbox" class="form-check-input" id="firstCheck">
+                <label class="form-check-label" for="firstCheck">First transaction?</label>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">User tenure (months)</label>
+                <input name="user_tenure_months" type="number" step="0.01" class="form-control" required>
+            </div>
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary">Predict</button>
+            </div>
+            <div id="spinner" class="d-none text-center my-3">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Processing...</span>
+                </div>
+                <div>Processing...</div>
+            </div>
+
+        </form>
+    </div>
+    <script>
+  const form = document.querySelector('form');
+  const spinner = document.getElementById('spinner');
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault(); // Stop immediate submit
+    spinner.classList.remove('d-none'); // Show spinner
+    setTimeout(() => {
+      form.submit(); // Submit form after 1 second
+    }, 500);
+  });
+</script>
+
+</body>
+
+</html>
