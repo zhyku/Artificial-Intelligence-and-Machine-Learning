@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Smart Fraud Detection System</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-image: url('https://wallpapers.com/images/hd/motherboard-with-key-lock-hacker-4k-jm4j8cj87l5lhrx6.jpg'); /* Ensure the image is correctly referenced */
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+    }
+
+    .container {
+      background-color: rgba(186, 232, 137, 0.85);
+      padding: 20px;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body class="py-5">
+  <div class="container">
+    <h1 class="mb-4">Smart Fraud Detection System</h1>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% for category, msg in messages %}
+        <div class="alert alert-{{ category }} mb-3">{{ msg }}</div>
+      {% endfor %}
+    {% endwith %}
+
+    <form method="post" class="row g-3">
+      <div class="col-md-6">
+        <label class="form-label">Time since login (min)</label>
+        <input name="time_since_login_min" type="number" step="0.01" class="form-control" required>
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Transaction amount</label>
+        <input name="transaction_amount" type="number" step="0.01" class="form-control" required>
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Transaction type</label>
+        <select name="transaction_type" class="form-select">
+          {% for t in valid_types %}
+            <option value="{{ t }}">{{ t }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-md-6 form-check mt-4">
+        <input name="is_first_transaction" type="checkbox" class="form-check-input" id="firstCheck">
+        <label class="form-check-label" for="firstCheck">First transaction</label>
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">User tenure (months)</label>
+        <input name="user_tenure_months" type="number" step="0.01" class="form-control" required>
+      </div>
+      <div class="col-12">
+        <button type="submit" class="btn btn-primary">Predict</button>
+      </div>
+    </form>
+  </div>
+</body>
+</html>
