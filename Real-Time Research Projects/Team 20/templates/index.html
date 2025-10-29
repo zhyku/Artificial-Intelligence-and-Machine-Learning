@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Facial Recognition Login</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .container {
+            margin-top: 5%;
+            max-width: 500px;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .btn-scan {
+            background-color: #007bff;
+            color: white;
+        }
+        .btn-register {
+            background-color: #28a745;
+            color: white;
+        }
+        .webcam-preview {
+            display: block;
+            margin: auto;
+            width: 100%;
+            max-height: 300px;
+            border: 1px solid #ccc;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body class="bg-light">
+    <div class="container text-center">
+        <h3 class="mb-4">👤 Facial Recognition Login</h3>
+        <!-- Live webcam feed -->
+        <img src="{{ url_for('video_feed') }}" class="webcam-preview" alt="Webcam Feed">
+
+        <form action="/recognize" method="POST">
+            <button class="btn btn-scan btn-block" type="submit">Scan Face</button>
+        </form>
+        <br>
+        <a href="/register" class="btn btn-register btn-block">Register New Employee</a>
+
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <div class="alert alert-info mt-3">
+              <ul class="mb-0">
+              {% for message in messages %}
+                <li>{{ message }}</li>
+              {% endfor %}
+              </ul>
+            </div>
+          {% endif %}
+        {% endwith %}
+    </div>
+</body>
+</html>
